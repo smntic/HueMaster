@@ -12,5 +12,5 @@ Create a usable colour scheme from an image
 ```bash
 HueMaster <path_to_image>
 ```
-Generates a `.Xresources` file from the image and outputs to stdout
+Generates a `.Xresources` file from the image and outputs to stdout\
 The color scheme may be quickly tested at: https://terminal.sexy
