@@ -26,7 +26,7 @@ real_path = "path/to/real_file"
 format_path = "path/to/another_format"
 real_path = "path/to/another_real_file"
 
-...
+# ...
 ```
 The `section_name` can be any distinct name.\
 \
