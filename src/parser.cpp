@@ -20,8 +20,8 @@ std::string Parser::parse(const std::string &format_path, const ColorScheme &col
                     ColorScheme::ConversionResult hex = color_scheme.name_to_hex(current_segment);
                     if (!hex.success) {
                         std::stringstream error_message;
-                        error_message << "Failed to parse color: " << current_segment << " in file: " << format_path
-                                      << " at line: " << line_number;
+                        error_message << "Failed to parse color: `" << current_segment << "` in file: `" << format_path
+                                      << "` at line: " << line_number;
                         throw std::runtime_error(error_message.str());
                     }
                     parsed_line += hex.result;
@@ -38,7 +38,8 @@ std::string Parser::parse(const std::string &format_path, const ColorScheme &col
 
         if (placeholder) {
             std::stringstream error_message;
-            error_message << "Placeholder missing closing '$$' in file: " << format_path << " at line: " << line_number;
+            error_message << "Placeholder missing closing '$$' in file: `" << format_path << "` at line: "
+                          << line_number;
             throw std::runtime_error(error_message.str());
         }
 
