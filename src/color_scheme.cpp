@@ -43,7 +43,7 @@ void ColorScheme::print_Xresources() {
     std::cout << "*.background:\t" << background_color.to_hex() << std::endl;
     std::cout << "*.cursorColor:\t" << text_color.to_hex() << std::endl;
 
-    for (int i = 0; i < (int) Xresources_headers.size(); i++) {
+    for (size_t i = 0; i < Xresources_headers.size(); i++) {
         std::cout << std::endl;
         std::cout << "! " << Xresources_headers[i] << std::endl;
         std::cout << "*.color" << i << ":\t" << scheme_colors[i].to_hex() << std::endl;
