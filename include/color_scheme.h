@@ -11,6 +11,12 @@ public:
 
     void print_Xresources();
 
+    struct ConversionResult {
+        bool success{};
+        std::string result;
+    };
+    [[nodiscard]] ConversionResult name_to_hex(const std::string &name) const;
+
 private:
     Color find_background_color(bool find_light);
     Color find_text_color(bool find_light);

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "image.h"
 #include "color_scheme.h"
+#include "configurator.h"
 
 int main(int argc, char **argv) {
     try {
@@ -8,10 +9,14 @@ int main(int argc, char **argv) {
             throw std::runtime_error("Usage: " + std::string(argv[0]) + " <image_path>");
         }
 
+        Configurator configurator;
+        configurator.load_config("config.toml");
+
         Image image(argv[1]);
         ColorScheme color_scheme;
         color_scheme.generate(image);
-        color_scheme.print_Xresources();
+
+        configurator.configure(color_scheme);
     } catch (const std::runtime_error &e) {
         std::cerr << e.what() << std::endl;
         return 1;

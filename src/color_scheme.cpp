@@ -51,6 +51,32 @@ void ColorScheme::print_Xresources() {
     }
 }
 
+ColorScheme::ConversionResult ColorScheme::name_to_hex(const std::string &name) const {
+    if (name == "BACKGROUND") {
+        return {true, background_color.to_hex()};
+    } else if (name == "FOREGROUND") {
+        return {true, text_color.to_hex()};
+    } else {
+        if (name.size() < 6 || name.substr(0, 5) != "COLOR") {
+            return {false, ""};
+        }
+
+        std::string color_number = name.substr(5);
+        try {
+            int value = std::stoi(color_number);
+            if (value < 0 || value > 15) {
+                return {false, ""};
+            }
+
+            return {true, scheme_colors[value].to_hex()};
+        } catch (const std::invalid_argument &e) {
+            return {false, ""};
+        } catch (const std::out_of_range &e) {
+            return {false, ""};
+        }
+    }
+}
+
 Color ColorScheme::find_background_color(bool find_light) {
     Color color;
     float max_score = 0.0f;
