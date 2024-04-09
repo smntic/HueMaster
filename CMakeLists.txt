@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(HueMaster)
+project(huemaster)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -8,7 +8,7 @@ include_directories(include)
 find_package(OpenCV REQUIRED)
 add_subdirectory(external/toml11)
 
-add_executable(HueMaster src/main.cpp
+add_executable(huemaster src/main.cpp
         src/image.cpp
         include/image.h
         src/color.cpp
@@ -23,7 +23,7 @@ add_executable(HueMaster src/main.cpp
         include/parser.h
 )
 
-target_link_libraries(HueMaster
+target_link_libraries(huemaster
         ${OpenCV_LIBS}
         toml11
 )

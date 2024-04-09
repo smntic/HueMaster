@@ -11,7 +11,7 @@ Create a usable colour scheme from an image
 
 ## Usage
 ```bash
-HueMaster <path_to_image>
+huemaster <path_to_image>
 ```
 
 ## Configuration
