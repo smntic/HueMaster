@@ -10,7 +10,7 @@
 
 class Image {
 public:
-    Image(const std::string &path);
+    explicit Image(const std::string &path);
 
     [[nodiscard]] std::vector<Color> get_dominant_colors() const;
     [[nodiscard]] float calculate_mean_luminance() const;

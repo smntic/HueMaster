@@ -42,14 +42,11 @@ void Configurator::load_config(const std::string &config_path) {
 }
 
 void Configurator::configure(const ColorScheme &color_scheme) {
-    Parser parser;
-    Writer writer;
-
     for (size_t i = 0; i < format_paths.size(); ++i) {
         const std::string &format_path = format_paths[i];
         const std::string &real_path = real_paths[i];
 
         std::string parsed_config = Parser::parse(format_path, color_scheme);
-        writer.write(real_path, parsed_config);
+        Writer::write(real_path, parsed_config);
     }
 }
