@@ -5,7 +5,7 @@
 
 class ColorScheme {
 public:
-    ColorScheme() = default;
+    ColorScheme();
 
     void generate(const Image &image);
 

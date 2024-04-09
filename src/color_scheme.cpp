@@ -1,5 +1,9 @@
 #include "color_scheme.h"
 
+ColorScheme::ColorScheme() {
+    scheme_colors.assign(16, {});
+}
+
 void ColorScheme::generate(const Image &image) {
     bool light_image = image.is_light();
     dominant_colors = image.get_dominant_colors();
