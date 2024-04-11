@@ -17,12 +17,12 @@ void ColorScheme::generate(const Image &image) {
     const Color &color8 = color0;
 
     used_colors.push_back(color0);
-    scheme_colors.push_back(color0);
+    scheme_colors[0] = color0;
 
     for (int color = 1; color <= 6; color++) {
         Color contrasting_color = find_contrasting_color(!light_image);
         used_colors.push_back(contrasting_color);
-        scheme_colors.push_back(contrasting_color);
+        scheme_colors[color] = contrasting_color;
     }
 
     Color color15 = find_text_color(!light_image);
@@ -31,14 +31,14 @@ void ColorScheme::generate(const Image &image) {
     used_colors.push_back(color7);
     used_colors.push_back(color15);
 
-    scheme_colors.push_back(color7);
-    scheme_colors.push_back(color8);
+    scheme_colors[7] = color7;
+    scheme_colors[8] = color8;
 
     for (int color = 9; color <= 14; color++) {
-        scheme_colors.push_back(scheme_colors[color - 8]);
+        scheme_colors[color] = scheme_colors[color - 8];
     }
 
-    scheme_colors.push_back(color15);
+    scheme_colors[15] = color15;
 }
 
 void ColorScheme::print_Xresources() {
