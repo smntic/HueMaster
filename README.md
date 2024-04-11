@@ -9,6 +9,22 @@ Create a usable colour scheme from an image
 * Find colors that are not too similar to each other for easy distinction
 * Keep the format files human-readable
 
+## Installation
+Clone the repository and recursively:
+```bash
+git clone --recursive git@github.com:MrPersonDev/HueMaster.git
+```
+
+Build the project:
+```bash
+cd HueMaster
+cmake .
+make
+sudo make install
+```
+
+This installs the `huemaster` executable to the bin directory.
+
 ## Usage
 ```bash
 huemaster <path_to_image>

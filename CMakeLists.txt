@@ -27,3 +27,12 @@ target_link_libraries(huemaster
         ${OpenCV_LIBS}
         toml11
 )
+
+set(CMAKE_INSTALL_PREFIX /usr/local)
+
+set(BIN_INSTALL_DIR bin)
+set(LIB_INSTALL_DIR lib)
+set(INCLUDE_INSTALL_DIR include)
+set(SHARE_INSTALL_DIR share)
+
+install(TARGETS huemaster DESTINATION ${BIN_INSTALL_DIR})
