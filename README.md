@@ -31,7 +31,7 @@ huemaster <path_to_image>
 ```
 
 ## Configuration
-Create a configuration file in the same directory as the executable (for now) named `config.toml`\
+Create configuration file with path `~/.config/huemaster/config.toml`.\
 The configuration file should have the following format:
 ```toml
 [section_name]

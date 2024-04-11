@@ -10,7 +10,8 @@ int main(int argc, char **argv) {
         }
 
         Configurator configurator;
-        configurator.load_config("config.toml");
+        std::string config_path = std::string(getenv("HOME")) + "/.config/huemaster/config.toml";
+        configurator.load_config(config_path);
 
         Image image(argv[1]);
         ColorScheme color_scheme;
