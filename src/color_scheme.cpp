@@ -5,27 +5,27 @@ ColorScheme::ColorScheme() {
 }
 
 void ColorScheme::generate(const Image &image) {
-    bool light_image = image.is_light();
+    light_theme = image.is_light();
     dominant_colors = image.get_dominant_colors();
 
-    background_color = find_background_color(light_image);
+    background_color = find_background_color(light_theme);
     used_colors.push_back(background_color);
-    text_color = find_text_color(!light_image);
+    text_color = find_text_color(!light_theme);
     used_colors.push_back(text_color);
 
-    Color color0 = find_background_color(light_image);
+    Color color0 = find_background_color(light_theme);
     const Color &color8 = color0;
 
     used_colors.push_back(color0);
     scheme_colors[0] = color0;
 
     for (int color = 1; color <= 6; color++) {
-        Color contrasting_color = find_contrasting_color(!light_image);
+        Color contrasting_color = find_contrasting_color(!light_theme);
         used_colors.push_back(contrasting_color);
         scheme_colors[color] = contrasting_color;
     }
 
-    Color color15 = find_text_color(!light_image);
+    Color color15 = find_text_color(!light_theme);
     Color color7 = color15.multiply(0.75f);
 
     used_colors.push_back(color7);
@@ -90,9 +90,9 @@ ColorScheme::ConversionResult ColorScheme::commands_to_hex(const std::string &co
         }
 
         if (modifier == "lighten") {
-            color.adjust_luminance(amount);
+            color.adjust_luminance(amount * (light_theme ? -1.0f : 1.0f));
         } else if (modifier == "darken") {
-            color.adjust_luminance(-amount);
+            color.adjust_luminance(-amount * (light_theme ? -1.0f : 1.0f));
         } else {
             return {false, {}};
         }

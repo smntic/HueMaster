@@ -29,6 +29,8 @@ private:
             "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"
     };
 
+    bool light_theme;
+
     Color text_color;
     Color background_color;
 
