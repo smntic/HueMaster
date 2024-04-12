@@ -43,15 +43,15 @@ float Color::calculate_minimum_distance(const std::vector<Color> &colors) const 
 
 void Color::adjust_minmax_luminance(float target_luminance, bool is_light) {
     cv::Mat lab_color;
-    cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), lab_color, cv::COLOR_RGB2HLS);
+    cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), lab_color, cv::COLOR_RGB2Lab);
 
-    float current_luminance = lab_color.at<cv::Vec3f>(0, 0)[1];
+    float current_luminance = lab_color.at<cv::Vec3f>(0, 0)[0];
     if ((is_light && current_luminance < target_luminance)
         || (!is_light && current_luminance > target_luminance)) {
-        lab_color.at<cv::Vec3f>(0, 0)[1] = target_luminance;
+        lab_color.at<cv::Vec3f>(0, 0)[0] = target_luminance;
     }
 
-    cv::cvtColor(lab_color, lab_color, cv::COLOR_HLS2RGB);
+    cv::cvtColor(lab_color, lab_color, cv::COLOR_Lab2RGB);
     color = lab_color.at<cv::Vec3f>(0, 0) * 255.0f;
 }
 
