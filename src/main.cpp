@@ -14,6 +14,8 @@ int main(int argc, char **argv) {
         configurator.load_config(config_path);
 
         Image image(argv[1]);
+        image.resize(256, 256);
+
         ColorScheme color_scheme;
         color_scheme.generate(image);
 

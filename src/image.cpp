@@ -45,6 +45,10 @@ float Image::calculate_mean_luminance() const {
     return (float) mean_lab[0] / 255.0f;
 }
 
+void Image::resize(int width, int height) {
+    cv::resize(image, image, cv::Size(width, height), 0, 0, cv::INTER_AREA);
+}
+
 bool Image::is_light() const {
     float mean_luminance = calculate_mean_luminance();
     const float light_threshold = 0.5f;

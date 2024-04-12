@@ -15,6 +15,8 @@ public:
     [[nodiscard]] std::vector<Color> get_dominant_colors() const;
     [[nodiscard]] float calculate_mean_luminance() const;
 
+    void resize(int width, int height);
+
     [[nodiscard]] bool is_light() const;
 private:
     cv::Mat image;
