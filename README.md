@@ -54,9 +54,16 @@ real_path = "~/.Xresources"
 ```
 \
 The file specified in `format_path` should be a copy of the configuration file with placeholders for the colours.\
-The placeholders can be in one of two formats:
-* "$$BACKGROUND$$" or "$$FOREGROUND$$" for the background and foreground colours respectively
-* "$$COLOR0$$" to "$$COLOR15$$" for the 16 colours in the palette
+The placeholders should be in the format `$$COLOUR.command1(arg1).command2(arg2)$$`.
+
+The `COLOUR` argument can be any of the following:
+* "BACKGROUND" or "FOREGROUND" for the background and foreground colours respectively
+* "COLOR0" to "COLOR15" for the 16 colours in the palette
+
+The commands are chained together by `.`'s to modify the colour.\
+The available commands are:
+* `lighten(n)` to lighten the colour by `n` percent
+* `darken(n)` to darken the colour by `n` percent
 
 For example, for `.Xresources` configuration:
 ```Xresources
@@ -66,8 +73,8 @@ For example, for `.Xresources` configuration:
 *.cursorColor:  $$FOREGROUND$$
 
 ! black
-*.color0:       $$COLOR0$$
-*.color8:       $$COLOR8$$
+*.color0:       $$COLOR0.lighten(10).darken(20)$$
+*.color8:       $$COLOR0.darken(10)$$
 
 ...
 ```

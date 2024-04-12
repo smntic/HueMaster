@@ -55,28 +55,74 @@ void ColorScheme::print_Xresources() {
     }
 }
 
-ColorScheme::ConversionResult ColorScheme::name_to_hex(const std::string &name) const {
+ColorScheme::ConversionResult ColorScheme::commands_to_hex(const std::string &commands) const {
+    std::vector<std::string> segments = split_commands(commands);
+
+    if (segments.empty()) {
+        return {false, {}};
+    }
+
+    ConversionResult result = name_to_color(segments[0]);
+    if (!result.success) {
+        return {false, {}};
+    }
+
+    Color color = result.result;
+    for (size_t i = 1; i < segments.size(); i++) {
+        size_t modifier_end = segments[i].find('(');
+        if (modifier_end == std::string::npos) {
+            return {false, {}};
+        }
+
+        std::string modifier = segments[i].substr(0, modifier_end);
+        if (segments[i].size() < modifier_end + 2 || segments[i].back() != ')') {
+            return {false, {}};
+        }
+
+        std::string argument = segments[i].substr(modifier_end + 1, segments[i].size() - modifier_end - 2);
+        float amount;
+        try {
+            amount = std::stof(argument);
+        } catch (const std::invalid_argument &e) {
+            return {false, {}};
+        } catch (const std::out_of_range &e) {
+            return {false, {}};
+        }
+
+        if (modifier == "lighten") {
+            color.adjust_luminance(amount);
+        } else if (modifier == "darken") {
+            color.adjust_luminance(-amount);
+        } else {
+            return {false, {}};
+        }
+    }
+
+    return {true, color};
+}
+
+ColorScheme::ConversionResult ColorScheme::name_to_color(const std::string &name) const {
     if (name == "BACKGROUND") {
-        return {true, background_color.to_hex()};
+        return {true, background_color};
     } else if (name == "FOREGROUND") {
-        return {true, text_color.to_hex()};
+        return {true, text_color};
     } else {
         if (name.size() < 6 || name.substr(0, 5) != "COLOR") {
-            return {false, ""};
+            return {false, {}};
         }
 
         std::string color_number = name.substr(5);
         try {
             int value = std::stoi(color_number);
             if (value < 0 || value > 15) {
-                return {false, ""};
+                return {false, {}};
             }
 
-            return {true, scheme_colors[value].to_hex()};
+            return {true, scheme_colors[value]};
         } catch (const std::invalid_argument &e) {
-            return {false, ""};
+            return {false, {}};
         } catch (const std::out_of_range &e) {
-            return {false, ""};
+            return {false, {}};
         }
     }
 }
@@ -104,7 +150,7 @@ Color ColorScheme::find_text_color(bool find_light) {
     float max_score = 0.0f;
     for (const Color &dominant_color: dominant_colors) {
         Color current_color = dominant_color;
-        current_color.adjust_luminance(find_light ? 0.9f : 0.1f, find_light);
+        current_color.adjust_minmax_luminance(find_light ? 0.9f : 0.1f, find_light);
 
         float min_dist = current_color.calculate_minimum_distance(used_colors);
         float contrast = current_color.calculate_contrast(background_color);
@@ -126,7 +172,7 @@ Color ColorScheme::find_contrasting_color(bool find_light) {
         Color current_color = dominant_color;
 
         float contrast = current_color.calculate_contrast(background_color);
-        current_color.adjust_contrast(find_light ? 7.0f : 3.0f, background_color, find_light);
+        current_color.adjust_min_contrast(find_light ? 7.0f : 3.0f, background_color, find_light);
         float min_dist = current_color.calculate_minimum_distance(used_colors);
 
         float current_score = dominant_color.get_proportion() * contrast * min_dist;
@@ -137,4 +183,19 @@ Color ColorScheme::find_contrasting_color(bool find_light) {
     }
 
     return color;
+}
+
+std::vector<std::string> ColorScheme::split_commands(const std::string &name) const {
+    std::vector<std::string> segments;
+    std::string current_segment;
+    for (char c: name) {
+        if (c == '.') {
+            segments.push_back(current_segment);
+            current_segment.clear();
+        } else {
+            current_segment += c;
+        }
+    }
+    segments.push_back(current_segment);
+    return segments;
 }

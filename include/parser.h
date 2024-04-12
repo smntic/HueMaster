@@ -8,6 +8,8 @@
 class Parser {
 public:
     static std::string parse(const std::string &format_path, const ColorScheme &color_scheme);
+    static std::string parse_line(const std::string &format_path, const ColorScheme &color_scheme,
+                                  const std::string &line, int line_number);
 };
 
 #endif //HUEMASTER_PARSER_H

@@ -13,14 +13,17 @@ public:
 
     struct ConversionResult {
         bool success{};
-        std::string result;
+        Color result;
     };
-    [[nodiscard]] ConversionResult name_to_hex(const std::string &name) const;
+    [[nodiscard]] ConversionResult commands_to_hex(const std::string &commands) const;
+    [[nodiscard]] ConversionResult name_to_color(const std::string &name) const;
 
 private:
     Color find_background_color(bool find_light);
     Color find_text_color(bool find_light);
     Color find_contrasting_color(bool find_light);
+
+    std::vector<std::string> split_commands(const std::string &name) const;
 
     const std::vector<std::string> Xresources_headers = {
             "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"

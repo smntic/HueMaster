@@ -18,8 +18,10 @@ public:
     [[nodiscard]] float calculate_distance(const Color &other) const;
     [[nodiscard]] float calculate_minimum_distance(const std::vector<Color> &colors) const;
 
-    void adjust_luminance(float target_luminance, bool is_light);
-    void adjust_contrast(float target_contrast, const Color &background_color, bool is_light);
+    void adjust_minmax_luminance(float target_luminance, bool is_light);
+    void adjust_min_contrast(float target_contrast, const Color &background_color, bool is_light);
+
+    void adjust_luminance(float amount);
 
     [[nodiscard]] cv::Vec3f get_color() const;
     [[nodiscard]] float get_proportion() const;

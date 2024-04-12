@@ -41,7 +41,7 @@ float Color::calculate_minimum_distance(const std::vector<Color> &colors) const 
     return min_dist;
 }
 
-void Color::adjust_luminance(float target_luminance, bool is_light) {
+void Color::adjust_minmax_luminance(float target_luminance, bool is_light) {
     cv::Mat lab_color;
     cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), lab_color, cv::COLOR_RGB2HLS);
 
@@ -55,7 +55,7 @@ void Color::adjust_luminance(float target_luminance, bool is_light) {
     color = lab_color.at<cv::Vec3f>(0, 0) * 255.0f;
 }
 
-void Color::adjust_contrast(float target_contrast, const Color &background_color, bool is_light) {
+void Color::adjust_min_contrast(float target_contrast, const Color &background_color, bool is_light) {
     float current_contrast = calculate_contrast(background_color);
     cv::Vec3f adjusted_color = color;
 
@@ -87,6 +87,16 @@ void Color::adjust_contrast(float target_contrast, const Color &background_color
         color = adjusted_color;
         current_contrast = calculate_contrast(background_color);
     }
+}
+
+void Color::adjust_luminance(float amount) {
+    cv::Mat lab_color;
+    cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), lab_color, cv::COLOR_RGB2Lab);
+
+    lab_color.at<cv::Vec3f>(0, 0)[0] += amount;
+
+    cv::cvtColor(lab_color, lab_color, cv::COLOR_Lab2RGB);
+    color = lab_color.at<cv::Vec3f>(0, 0) * 255.0f;
 }
 
 cv::Vec3f Color::get_color() const {
