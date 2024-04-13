@@ -187,7 +187,7 @@ Color ColorScheme::find_contrasting_color(bool find_light) {
         current_color.adjust_min_contrast(find_light ? 7.0f : 3.0f, background_color, find_light);
         float min_dist = current_color.calculate_minimum_distance(used_colors);
 
-        float current_score = dominant_color.get_proportion() * contrast * min_dist;
+        float current_score = contrast * min_dist;
         if (current_score > max_score) {
             max_score = current_score;
             color = current_color;
