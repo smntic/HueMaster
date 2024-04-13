@@ -1,9 +1,9 @@
 # HueMaster
-Create a usable colour scheme from an image
+Create a usable color scheme from an image
 
 ## Key Ideas
-* Use [K-means clustering](https://en.wikipedia.org/wiki/K-means_clustering) to find the most dominant colours in an image
-* Use [contrast](https://webaim.org/resources/contrastchecker/) to find usable combinations of colours
+* Use [K-means clustering](https://en.wikipedia.org/wiki/K-means_clustering) to find the most dominant colors in an image
+* Use [contrast](https://webaim.org/resources/contrastchecker/) to find usable combinations of colors
 * Text colors should always be close to black or white for legibility
 * Background colors should be dark/light for legibility
 * Find colors that are not too similar to each other for easy distinction
@@ -53,19 +53,19 @@ format_path = "Xresources.format"
 real_path = "~/.Xresources"
 ```
 \
-The file specified in `format_path` should be a copy of the configuration file with placeholders for the colours.\
-The placeholders should be in the format `$$COLOUR.command1(arg1).command2(arg2)$$`.
+The file specified in `format_path` should be a copy of the configuration file with placeholders for the colors.\
+The placeholders should be in the format `$$COLOR.command1(arg1).command2(arg2)$$`.
 
-The `COLOUR` argument can be any of the following:
-* "BACKGROUND" or "FOREGROUND" for the background and foreground colours respectively
-* "COLOR0" to "COLOR15" for the 16 colours in the palette
-* "ACCENT", "GOOD", "WARNING", "ERROR" and "INFO" are macros for colours that could be used for those purposes
+The `COLOR` argument can be any of the following:
+* "BACKGROUND" or "FOREGROUND" for the background and foreground colors respectively
+* "COLOR0" to "COLOR15" for the 16 colors in the palette
+* "ACCENT", "GOOD", "WARNING", "ERROR" and "INFO" are macros for colors that could be used for those purposes
 
-The commands are chained together by `.`'s to modify the colour.\
+The commands are chained together by `.`'s to modify the color.\
 The available commands are:
-* `lighten(n)` to lighten the colour by `n` percent
-* `darken(n)` to darken the colour by `n` percent
-* `alpha(n)` to change the alpha value of the colour by `n` percent
+* `lighten(n)` to lighten the color by `n` percent
+* `darken(n)` to darken the color by `n` percent
+* `alpha(n)` to change the alpha value of the color by `n` percent
 
 For example, for `.Xresources` configuration:
 ```Xresources
@@ -85,5 +85,5 @@ The parsed and formatted file will be written to the path specified in `real_pat
 Make sure to back up the original files before running the program!
 
 **Small note about hex values**:\
-Colours are normally written in the format `#RRGGBB`.\
+Colors are normally written in the format `#RRGGBB`.\
 When the alpha command is used at all it becomes `#RRGGBBAA`.
