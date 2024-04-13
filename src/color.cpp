@@ -99,6 +99,16 @@ void Color::adjust_luminance(float amount) {
     color = lab_color.at<cv::Vec3f>(0, 0) * 255.0f;
 }
 
+void Color::adjust_alpha(float amount) {
+    alpha += amount;
+    if (alpha < 0.0f) {
+        alpha = 0.0f;
+    } else if (alpha > 1.0f) {
+        alpha = 1.0f;
+    }
+    alpha_changed = true;
+}
+
 cv::Vec3f Color::get_color() const {
     return color;
 }
@@ -112,6 +122,11 @@ std::string Color::to_hex() const {
     stream << "#" << std::hex << std::setfill('0') << std::setw(2) << (int) color[0]
            << std::hex << std::setfill('0') << std::setw(2) << (int) color[1]
            << std::hex << std::setfill('0') << std::setw(2) << (int) color[2];
+
+    if (alpha_changed) {
+        stream << std::hex << std::setfill('0') << std::setw(2) << (int) (alpha * 255.0f);
+    }
+
     return stream.str();
 }
 

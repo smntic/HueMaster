@@ -22,6 +22,7 @@ public:
     void adjust_min_contrast(float target_contrast, const Color &background_color, bool is_light);
 
     void adjust_luminance(float amount);
+    void adjust_alpha(float amount);
 
     [[nodiscard]] cv::Vec3f get_color() const;
     [[nodiscard]] float get_proportion() const;
@@ -35,6 +36,8 @@ private:
     static float normalize_channel(float channel);
 
     cv::Vec3f color;
+    float alpha = 1.0f;
+    bool alpha_changed = false;
     float proportion{};
 };
 

@@ -65,6 +65,7 @@ The commands are chained together by `.`'s to modify the colour.\
 The available commands are:
 * `lighten(n)` to lighten the colour by `n` percent
 * `darken(n)` to darken the colour by `n` percent
+* `alpha(n)` to change the alpha value of the colour by `n` percent
 
 For example, for `.Xresources` configuration:
 ```Xresources
@@ -82,3 +83,7 @@ For example, for `.Xresources` configuration:
 
 The parsed and formatted file will be written to the path specified in `real_path`.\
 Make sure to back up the original files before running the program!
+
+**Small note about hex values**:\
+Colours are normally written in the format `#RRGGBB`.\
+When the alpha command is used at all it becomes `#RRGGBBAA`.

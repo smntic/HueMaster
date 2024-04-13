@@ -93,6 +93,8 @@ ColorScheme::ConversionResult ColorScheme::commands_to_hex(const std::string &co
             color.adjust_luminance(amount * (light_theme ? -1.0f : 1.0f));
         } else if (modifier == "darken") {
             color.adjust_luminance(-amount * (light_theme ? -1.0f : 1.0f));
+        } else if (modifier == "alpha") {
+            color.adjust_alpha(amount / 100.0f);
         } else {
             return {false, {}};
         }
