@@ -59,6 +59,7 @@ The placeholders should be in the format `$$COLOUR.command1(arg1).command2(arg2)
 The `COLOUR` argument can be any of the following:
 * "BACKGROUND" or "FOREGROUND" for the background and foreground colours respectively
 * "COLOR0" to "COLOR15" for the 16 colours in the palette
+* "ACCENT", "GOOD", "WARNING", "ERROR" and "INFO" are macros for colours that could be used for those purposes
 
 The commands are chained together by `.`'s to modify the colour.\
 The available commands are:

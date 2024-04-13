@@ -106,6 +106,16 @@ ColorScheme::ConversionResult ColorScheme::name_to_color(const std::string &name
         return {true, background_color};
     } else if (name == "FOREGROUND") {
         return {true, text_color};
+    } else if (name == "ACCENT") {
+        return {true, scheme_colors[1]};
+    } else if (name == "GOOD") {
+        return {true, scheme_colors[3]};
+    } else if (name == "WARNING") {
+        return {true, scheme_colors[4]};
+    } else if (name == "ERROR") {
+        return {true, scheme_colors[5]};
+    } else if (name == "INFO") {
+        return {true, scheme_colors[2]};
     } else {
         if (name.size() < 6 || name.substr(0, 5) != "COLOR") {
             return {false, {}};
