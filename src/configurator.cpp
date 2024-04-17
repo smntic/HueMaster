@@ -17,6 +17,7 @@ void Configurator::load_config(const std::string &config_path) {
         std::cerr << "Config file is empty" << std::endl;
     }
 
+    bool wallpaper_section = false;
     for (const auto &section: data.as_table()) {
         const std::string &section_name = section.first;
         const toml::value &section_data = section.second;
@@ -25,11 +26,15 @@ void Configurator::load_config(const std::string &config_path) {
         }
 
         if (section_name == "Wallpaper") {
+            wallpaper_section = true;
             load_wallpaper_path(section_name, section_data);
         } else {
             load_format(section_name, section_data);
         }
+    }
 
+    if (!wallpaper_section) {
+        throw std::runtime_error("Config file must contain a 'Wallpaper' section with a 'path' field");
     }
 }
 
