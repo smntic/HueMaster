@@ -27,13 +27,16 @@ This installs the `huemaster` executable to the bin directory.
 
 ## Usage
 ```bash
-huemaster <path_to_image>
+huemaster
 ```
 
 ## Configuration
 Create configuration file with path `~/.config/huemaster/config.toml`.\
 The configuration file should have the following format:
 ```toml
+[Wallpaper]
+path = "path/to/wallpaper"
+
 [section_name]
 format_path = "path/to/format"
 real_path = "path/to/real_file"
@@ -48,6 +51,9 @@ The `section_name` can be any distinct name.\
 \
 For example, for `.Xresources` configuration:
 ```toml
+[Wallpaper]
+path = "wallpaper"
+
 [Xresources]
 format_path = "Xresources.format"
 real_path = "~/.Xresources"

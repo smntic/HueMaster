@@ -19,25 +19,17 @@ void Configurator::load_config(const std::string &config_path) {
 
     for (const auto &section: data.as_table()) {
         const std::string &section_name = section.first;
-        const auto &section_data = section.second;
+        const toml::value &section_data = section.second;
         if (!section_data.is_table()) {
             throw std::runtime_error("Config file section must be a table (section: " + section_name + ")");
         }
 
-        if (!section_data.contains("format_path") || !section_data.contains("real_path")) {
-            throw std::runtime_error(
-                    "Config file section must contain 'format_path' and 'real_path' fields (section: " + section_name +
-                    ")");
+        if (section_name == "Wallpaper") {
+            load_wallpaper_path(section_name, section_data);
+        } else {
+            load_format(section_name, section_data);
         }
 
-        if (section_data.size() != 2) {
-            throw std::runtime_error(
-                    "Config file section must only contain 'format_path' and 'real_path' fields (section: " +
-                    section_name + ")");
-        }
-
-        format_paths.push_back(section_data.at("format_path").as_string());
-        real_paths.push_back(section_data.at("real_path").as_string());
     }
 }
 
@@ -50,3 +42,38 @@ void Configurator::configure(const ColorScheme &color_scheme) {
         Writer::write(real_path, parsed_config);
     }
 }
+
+std::string Configurator::get_wallpaper_path() {
+    return wallpaper_path;
+}
+
+void Configurator::load_format(const std::string &section_name, const toml::value &section_data) {
+    if (!section_data.contains("format_path") || !section_data.contains("real_path")) {
+        throw std::runtime_error(
+                "Config file section must contain 'format_path' and 'real_path' fields (section: " + section_name +
+                ")");
+    }
+
+    if (section_data.size() != 2) {
+        throw std::runtime_error(
+                "Config file section must only contain 'format_path' and 'real_path' fields (section: " +
+                section_name + ")");
+    }
+
+    format_paths.push_back(section_data.at("format_path").as_string());
+    real_paths.push_back(section_data.at("real_path").as_string());
+}
+
+void Configurator::load_wallpaper_path(const std::string &section_name, const toml::value &section_data) {
+    if (!section_data.contains("path")) {
+        throw std::runtime_error("Config file section must contain 'path' field (section: " + section_name + ")");
+    }
+
+    if (section_data.size() != 1) {
+        throw std::runtime_error("Config file section must only contain 'path' field (section: " + section_name + ")");
+    }
+
+    wallpaper_path = section_data.at("path").as_string();
+}
+
+

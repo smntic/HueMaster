@@ -3,17 +3,14 @@
 #include "color_scheme.h"
 #include "configurator.h"
 
-int main(int argc, char **argv) {
+int main() {
     try {
-        if (argc != 2) {
-            throw std::runtime_error("Usage: " + std::string(argv[0]) + " <image_path>");
-        }
-
         Configurator configurator;
         std::string config_path = std::string(getenv("HOME")) + "/.config/huemaster/config.toml";
         configurator.load_config(config_path);
+        std::string wallpaper_path = configurator.get_wallpaper_path();
 
-        Image image(argv[1]);
+        Image image(wallpaper_path);
         image.resize(256, 256);
 
         ColorScheme color_scheme;
