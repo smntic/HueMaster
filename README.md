@@ -60,7 +60,12 @@ real_path = "~/.Xresources"
 ```
 \
 The file specified in `format_path` should be a copy of the configuration file with placeholders for the colors.\
-The placeholders should be in the format `$$COLOR.command1(arg1).command2(arg2)$$`.
+The placeholders can be in the color format: \
+`$$COLOR.command1(arg1).command2(arg2)$$` \
+or the special format: \
+`$$SPECIAL$$`
+
+### Color format
 
 The `COLOR` argument can be any of the following:
 * "BACKGROUND" or "FOREGROUND" for the background and foreground colors respectively
@@ -87,6 +92,12 @@ For example, for `.Xresources` configuration:
 ...
 ```
 
+### Special format
+
+The `SPECIAL` argument can be any of the following:
+* "LIGHTNESS" for the lightness of the theme ('dark' or 'light' theme)
+
+\
 The parsed and formatted file will be written to the path specified in `real_path`.\
 Make sure to back up the original files before running the program!
 

@@ -15,8 +15,9 @@ public:
         bool success{};
         Color result;
     };
-    [[nodiscard]] ConversionResult commands_to_hex(const std::string &commands) const;
+    [[nodiscard]] ConversionResult commands_to_color(const std::string &commands) const;
     [[nodiscard]] ConversionResult name_to_color(const std::string &name) const;
+    [[nodiscard]] std::string lightness() const;
 
 private:
     Color find_background_color(bool find_light);

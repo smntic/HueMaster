@@ -29,14 +29,7 @@ std::string Parser::parse_line(const std::string &format_path, const ColorScheme
     for (size_t i = 0; i < line.size(); i++) {
         if (line[i] == '$' && i + 1 < line.size() && line[i + 1] == '$') {
             if (placeholder) {
-                ColorScheme::ConversionResult hex = color_scheme.commands_to_hex(current_segment);
-                if (!hex.success) {
-                    std::stringstream error_message;
-                    error_message << "Failed to parse color: `" << current_segment << "` in file: `" << format_path
-                                  << "` at line: " << line_number;
-                    throw std::runtime_error(error_message.str());
-                }
-                parsed_line += hex.result.to_hex();
+                parsed_line += parse_placeholder(format_path, color_scheme, current_segment, line_number);
             } else {
                 parsed_line += current_segment;
             }
@@ -58,4 +51,20 @@ std::string Parser::parse_line(const std::string &format_path, const ColorScheme
     parsed_line += current_segment;
 
     return parsed_line;
+}
+
+std::string Parser::parse_placeholder(const std::string &format_path, const ColorScheme &color_scheme,
+                                      const std::string &placeholder, int line_number) {
+    if (placeholder == "LIGHTNESS") {
+        return color_scheme.lightness();
+    }
+
+    ColorScheme::ConversionResult result = color_scheme.commands_to_color(placeholder);
+    if (!result.success) {
+        std::stringstream error_message;
+        error_message << "Failed to parse color: `" << placeholder << "` in file: `" << format_path
+                      << "` at line: " << line_number;
+        throw std::runtime_error(error_message.str());
+    }
+    return result.result.to_hex();
 }

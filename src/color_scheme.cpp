@@ -55,7 +55,7 @@ void ColorScheme::print_Xresources() {
     }
 }
 
-ColorScheme::ConversionResult ColorScheme::commands_to_hex(const std::string &commands) const {
+ColorScheme::ConversionResult ColorScheme::commands_to_color(const std::string &commands) const {
     std::vector<std::string> segments = split_commands(commands);
 
     if (segments.empty()) {
@@ -137,6 +137,10 @@ ColorScheme::ConversionResult ColorScheme::name_to_color(const std::string &name
             return {false, {}};
         }
     }
+}
+
+std::string ColorScheme::lightness() const {
+    return light_theme ? "light" : "dark";
 }
 
 Color ColorScheme::find_background_color(bool find_light) {
