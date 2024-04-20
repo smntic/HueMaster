@@ -148,13 +148,16 @@ Color ColorScheme::find_background_color(bool find_light) {
     float max_score = 0.0f;
     float opposite_background = find_light ? 0.0f : 1.0f;
     for (const Color &dominant_color: dominant_colors) {
-        float min_dist = dominant_color.calculate_minimum_distance(used_colors);
-        float dif = dominant_color.calculate_luminance_difference(opposite_background);
+        Color current_color = dominant_color;
+        current_color.adjust_minmax_luminance(find_light ? 80.0f : 20.0f, find_light);
 
-        float current_score = dominant_color.get_proportion() * std::pow(dif, 2.0f) * min_dist;
+        float min_dist = current_color.calculate_minimum_distance(used_colors);
+        float dif = current_color.calculate_luminance_difference(opposite_background);
+
+        float current_score = current_color.get_proportion() * std::pow(dif, 2.0f) * min_dist;
         if (current_score > max_score) {
             max_score = current_score;
-            color = dominant_color;
+            color = current_color;
         }
     }
 
@@ -166,7 +169,7 @@ Color ColorScheme::find_text_color(bool find_light) {
     float max_score = 0.0f;
     for (const Color &dominant_color: dominant_colors) {
         Color current_color = dominant_color;
-        current_color.adjust_minmax_luminance(find_light ? 0.9f : 0.1f, find_light);
+        current_color.adjust_minmax_luminance(find_light ? 90.0f : 10.0f, find_light);
 
         float min_dist = current_color.calculate_minimum_distance(used_colors);
         float contrast = current_color.calculate_contrast(background_color);
