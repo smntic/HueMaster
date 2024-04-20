@@ -190,6 +190,9 @@ Color ColorScheme::find_contrasting_color(bool find_light) {
     for (const Color &dominant_color: dominant_colors) {
         Color current_color = dominant_color;
 
+        // adjust color away from the extremes (avoid black/white)
+        current_color.adjust_minmax_luminance(find_light ? 80.0f : 20.0f, !find_light);
+
         float contrast = current_color.calculate_contrast(background_color);
         current_color.adjust_min_contrast(find_light ? 7.0f : 3.0f, background_color, find_light);
         float min_dist = current_color.calculate_minimum_distance(used_colors);
