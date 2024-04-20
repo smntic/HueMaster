@@ -174,7 +174,7 @@ Color ColorScheme::find_text_color(bool find_light) {
         float min_dist = current_color.calculate_minimum_distance(used_colors);
         float contrast = current_color.calculate_contrast(background_color);
 
-        float current_score = dominant_color.get_proportion() * contrast * min_dist;
+        float current_score = current_color.get_proportion() * contrast * min_dist;
         if (current_score > max_score) {
             max_score = current_score;
             color = current_color;
