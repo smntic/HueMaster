@@ -14,7 +14,7 @@ Image::Image(const std::string &path) {
 }
 
 std::vector<Color> Image::get_dominant_colors() const {
-    const int num_colors = 16;
+    const int num_colors = 32;
 
     cv::Mat reshaped = image.reshape(1, image.cols * image.rows);
     cv::Mat reshaped32f;
