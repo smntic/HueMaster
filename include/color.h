@@ -23,6 +23,7 @@ public:
 
     void adjust_luminance(float amount);
     void adjust_alpha(float amount);
+    void adjust_hue(float target_hue);
 
     [[nodiscard]] cv::Vec3f get_color() const;
     [[nodiscard]] float get_proportion() const;

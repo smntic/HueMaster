@@ -24,6 +24,8 @@ private:
     Color find_text_color(bool find_light);
     Color find_contrasting_color(bool find_light);
 
+    void adjust_special_colors();
+
     std::vector<std::string> split_commands(const std::string &name) const;
 
     const std::vector<std::string> Xresources_headers = {

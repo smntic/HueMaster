@@ -25,6 +25,8 @@ void ColorScheme::generate(const Image &image) {
         scheme_colors[color] = contrasting_color;
     }
 
+    adjust_special_colors();
+
     Color color15 = find_text_color(!light_theme);
     Color color7 = color15.multiply(0.75f);
 
@@ -203,6 +205,13 @@ Color ColorScheme::find_contrasting_color(bool find_light) {
     }
 
     return color;
+}
+
+void ColorScheme::adjust_special_colors() {
+    scheme_colors[3].adjust_hue(120.0f);
+    scheme_colors[4].adjust_hue(30.0f);
+    scheme_colors[5].adjust_hue(0.0f);
+    scheme_colors[2].adjust_hue(240.0f);
 }
 
 std::vector<std::string> ColorScheme::split_commands(const std::string &name) const {
