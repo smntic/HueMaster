@@ -208,26 +208,29 @@ Color ColorScheme::find_contrasting_color(bool find_light) {
 }
 
 void ColorScheme::generate_special_colors() {
-    accent_color = find_contrasting_color(!light_theme);
-    used_colors.push_back(accent_color);
-    error_color = find_contrasting_color(!light_theme);
-    used_colors.push_back(error_color);
-    good_color = find_contrasting_color(!light_theme);
-    used_colors.push_back(good_color);
-    warning_color = find_contrasting_color(!light_theme);
-    used_colors.push_back(warning_color);
-    info_color = find_contrasting_color(!light_theme);
-    used_colors.push_back(info_color);
-
     const float red_hue = 0.0f;
     const float green_hue = 120.0f;
     const float orange_hue = 30.0f;
     const float blue_hue = 240.0f;
 
+    accent_color = find_contrasting_color(!light_theme);
+    used_colors.push_back(accent_color);
+
+    error_color = find_contrasting_color(!light_theme);
     error_color.adjust_hue(red_hue);
+    used_colors.push_back(error_color);
+
+    good_color = find_contrasting_color(!light_theme);
     good_color.adjust_hue(green_hue);
+    used_colors.push_back(good_color);
+
+    warning_color = find_contrasting_color(!light_theme);
     warning_color.adjust_hue(orange_hue);
+    used_colors.push_back(warning_color);
+
+    info_color = find_contrasting_color(!light_theme);
     info_color.adjust_hue(blue_hue);
+    used_colors.push_back(info_color);
 }
 
 std::vector<std::string> ColorScheme::split_commands(const std::string &name) const {
