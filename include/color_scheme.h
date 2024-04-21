@@ -17,7 +17,7 @@ public:
     };
     [[nodiscard]] ConversionResult commands_to_color(const std::string &commands) const;
     [[nodiscard]] ConversionResult name_to_color(const std::string &name) const;
-    [[nodiscard]] std::string lightness() const;
+    [[nodiscard]] bool is_light() const;
 
 private:
     Color find_background_color(bool find_light);

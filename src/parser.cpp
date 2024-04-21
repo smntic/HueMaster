@@ -55,8 +55,8 @@ std::string Parser::parse_line(const std::string &format_path, const ColorScheme
 
 std::string Parser::parse_placeholder(const std::string &format_path, const ColorScheme &color_scheme,
                                       const std::string &placeholder, int line_number) {
-    if (placeholder == "LIGHTNESS") {
-        return color_scheme.lightness();
+    if (placeholder.size() >= 5 && placeholder.substr(0, 5) == "LIGHT") {
+        return parse_ternary_placeholder(format_path, color_scheme, placeholder, line_number);
     }
 
     ColorScheme::ConversionResult result = color_scheme.commands_to_color(placeholder);
@@ -67,4 +67,32 @@ std::string Parser::parse_placeholder(const std::string &format_path, const Colo
         throw std::runtime_error(error_message.str());
     }
     return result.result.to_hex();
+}
+
+std::string Parser::parse_ternary_placeholder(const std::string &format_path, const ColorScheme &color_scheme,
+                                              const std::string &placeholder, int line_number) {
+    bool light_theme = color_scheme.is_light();
+    if (placeholder.size() <= 5 || placeholder[5] != '?') {
+        throw std::runtime_error("Invalid placeholder (missing '?'): `" + placeholder + "` in file: `" + format_path
+                                 + "` at line: " + std::to_string(line_number));
+    }
+
+    std::string options = placeholder.substr(6);
+    size_t colon_index = options.find(':');
+    if (colon_index == std::string::npos) {
+        throw std::runtime_error("Invalid placeholder (missing ':'): `" + placeholder + "` in file: `" + format_path
+                                 + "` at line: " + std::to_string(line_number));
+    }
+
+    std::string string_1 = options.substr(0, colon_index);
+    std::string string_2;
+    if (colon_index + 1 < options.size()) {
+        string_2 = options.substr(colon_index + 1);
+    }
+
+    if (light_theme) {
+        return string_1;
+    } else {
+        return string_2;
+    }
 }

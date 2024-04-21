@@ -12,6 +12,8 @@ public:
                                   const std::string &line, int line_number);
     static std::string parse_placeholder(const std::string &format_path, const ColorScheme &color_scheme,
                                          const std::string &placeholder, int line_number);
+    static std::string parse_ternary_placeholder(const std::string &format_path, const ColorScheme &color_scheme,
+                                                 const std::string &placeholder, int line_number);
 };
 
 #endif //HUEMASTER_PARSER_H

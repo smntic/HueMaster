@@ -141,8 +141,8 @@ ColorScheme::ConversionResult ColorScheme::name_to_color(const std::string &name
     }
 }
 
-std::string ColorScheme::lightness() const {
-    return light_theme ? "light" : "dark";
+bool ColorScheme::is_light() const {
+    return light_theme;
 }
 
 Color ColorScheme::find_background_color(bool find_light) {

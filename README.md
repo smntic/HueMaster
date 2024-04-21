@@ -96,7 +96,7 @@ For example, for `.Xresources` configuration:
 ### Special format
 
 The `SPECIAL` argument can be any of the following:
-* "LIGHTNESS" for the lightness of the theme ('dark' or 'light' theme)
+* "LIGHT?STRING_1:STRING_2" to choose between `STRING_1` and `STRING_2` based on the lightness of the background color
 
 \
 The parsed and formatted file will be written to the path specified in `real_path`.\
