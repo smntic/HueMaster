@@ -2,12 +2,12 @@
 
 Image::Image(const std::string &path) {
     if (!std::filesystem::exists(path)) {
-        throw std::runtime_error("File does not exist");
+        throw std::runtime_error("File does not exist: '" + path + "'");
     }
 
     image = cv::imread(path, cv::IMREAD_COLOR);
     if (image.empty()) {
-        throw std::runtime_error("Could not read image");
+        throw std::runtime_error("Could not read image: '" + path + "'");
     }
 
     cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
