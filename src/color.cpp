@@ -113,7 +113,7 @@ void Color::adjust_hue(float target_hue) {
     cv::Mat hls_color;
     cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), hls_color, cv::COLOR_RGB2HLS);
 
-    hls_color.at<cv::Vec3f>(0, 0)[0] = target_hue / 2.0f;
+    hls_color.at<cv::Vec3f>(0, 0)[0] = target_hue;
 
     cv::cvtColor(hls_color, hls_color, cv::COLOR_HLS2RGB);
     color = hls_color.at<cv::Vec3f>(0, 0) * 255.0f;
