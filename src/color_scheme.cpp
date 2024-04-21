@@ -13,6 +13,8 @@ void ColorScheme::generate(const Image &image) {
     text_color = find_text_color(!light_theme);
     used_colors.push_back(text_color);
 
+    generate_special_colors();
+
     Color color0 = find_background_color(light_theme);
     const Color &color8 = color0;
 
@@ -24,8 +26,6 @@ void ColorScheme::generate(const Image &image) {
         used_colors.push_back(contrasting_color);
         scheme_colors[color] = contrasting_color;
     }
-
-    adjust_special_colors();
 
     Color color15 = find_text_color(!light_theme);
     Color color7 = color15.multiply(0.75f);
@@ -111,15 +111,15 @@ ColorScheme::ConversionResult ColorScheme::name_to_color(const std::string &name
     } else if (name == "FOREGROUND") {
         return {true, text_color};
     } else if (name == "ACCENT") {
-        return {true, scheme_colors[1]};
+        return {true, accent_color};
     } else if (name == "GOOD") {
-        return {true, scheme_colors[3]};
+        return {true, good_color};
     } else if (name == "WARNING") {
-        return {true, scheme_colors[4]};
+        return {true, warning_color};
     } else if (name == "ERROR") {
-        return {true, scheme_colors[5]};
+        return {true, error_color};
     } else if (name == "INFO") {
-        return {true, scheme_colors[2]};
+        return {true, info_color};
     } else {
         if (name.size() < 6 || name.substr(0, 5) != "COLOR") {
             return {false, {}};
@@ -207,11 +207,27 @@ Color ColorScheme::find_contrasting_color(bool find_light) {
     return color;
 }
 
-void ColorScheme::adjust_special_colors() {
-    scheme_colors[3].adjust_hue(120.0f);
-    scheme_colors[4].adjust_hue(30.0f);
-    scheme_colors[5].adjust_hue(0.0f);
-    scheme_colors[2].adjust_hue(240.0f);
+void ColorScheme::generate_special_colors() {
+    accent_color = find_contrasting_color(!light_theme);
+    used_colors.push_back(accent_color);
+    error_color = find_contrasting_color(!light_theme);
+    used_colors.push_back(error_color);
+    good_color = find_contrasting_color(!light_theme);
+    used_colors.push_back(good_color);
+    warning_color = find_contrasting_color(!light_theme);
+    used_colors.push_back(warning_color);
+    info_color = find_contrasting_color(!light_theme);
+    used_colors.push_back(info_color);
+
+    const float red_hue = 0.0f;
+    const float green_hue = 120.0f;
+    const float orange_hue = 30.0f;
+    const float blue_hue = 240.0f;
+
+    error_color.adjust_hue(red_hue);
+    good_color.adjust_hue(green_hue);
+    warning_color.adjust_hue(orange_hue);
+    info_color.adjust_hue(blue_hue);
 }
 
 std::vector<std::string> ColorScheme::split_commands(const std::string &name) const {

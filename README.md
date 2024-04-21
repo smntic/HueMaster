@@ -70,7 +70,8 @@ or the special format: \
 The `COLOR` argument can be any of the following:
 * "BACKGROUND" or "FOREGROUND" for the background and foreground colors respectively
 * "COLOR0" to "COLOR15" for the 16 colors in the palette
-* "ACCENT", "GOOD", "WARNING", "ERROR" and "INFO" are macros for colors that could be used for those purposes
+* "ACCENT", "GOOD", "WARNING", "ERROR" and "INFO" are macros for colors that could be used for those purposes.
+These colors are modified to be easily distinguishable from the other colors.
 
 The commands are chained together by `.`'s to modify the color.\
 The available commands are:

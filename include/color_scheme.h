@@ -24,7 +24,7 @@ private:
     Color find_text_color(bool find_light);
     Color find_contrasting_color(bool find_light);
 
-    void adjust_special_colors();
+    void generate_special_colors();
 
     std::vector<std::string> split_commands(const std::string &name) const;
 
@@ -40,6 +40,8 @@ private:
     std::vector<Color> scheme_colors;
     std::vector<Color> dominant_colors;
     std::vector<Color> used_colors;
+
+    Color error_color, good_color, warning_color, info_color, accent_color;
 };
 
 #endif //HUEMASTER_COLOR_SCHEME_H
