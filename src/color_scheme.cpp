@@ -16,6 +16,7 @@ void ColorScheme::generate(const Image &image) {
     generate_special_colors();
 
     Color color0 = find_background_color(light_theme);
+    color0.adjust_min_contrast(2.0, background_color, !light_theme);
     const Color &color8 = color0;
 
     used_colors.push_back(color0);
