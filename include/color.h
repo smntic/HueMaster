@@ -21,6 +21,8 @@ public:
     void adjust_minmax_luminance(float target_luminance, bool is_light);
     void adjust_min_contrast(float target_contrast, const Color &background_color, bool is_light);
 
+    void adjust_contrast_color(const Color &background_color, bool is_light);
+
     void adjust_luminance(float amount);
     void adjust_alpha(float amount);
     void adjust_hue(float target_hue);

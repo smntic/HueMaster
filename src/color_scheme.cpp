@@ -192,8 +192,7 @@ Color ColorScheme::find_contrasting_color(bool find_light) {
     float max_score = 0.0f;
     for (const Color &dominant_color: dominant_colors) {
         Color current_color = dominant_color;
-        current_color.adjust_minmax_luminance(find_light ? 80.0f : 20.0f, !find_light); // avoid (black/white)
-        current_color.adjust_min_contrast(find_light ? 7.0f : 3.0f, background_color, find_light);
+        current_color.adjust_contrast_color(background_color, find_light);
 
         float contrast = current_color.calculate_contrast(background_color);
         float min_dist = current_color.calculate_minimum_distance(used_colors);
@@ -208,6 +207,8 @@ Color ColorScheme::find_contrasting_color(bool find_light) {
     return color;
 }
 
+
+
 void ColorScheme::generate_special_colors() {
     const float red_hue = 0.0f;
     const float green_hue = 120.0f;
@@ -219,18 +220,22 @@ void ColorScheme::generate_special_colors() {
 
     error_color = find_contrasting_color(!light_theme);
     error_color.adjust_hue(red_hue);
+    error_color.adjust_contrast_color(background_color, !light_theme);
     used_colors.push_back(error_color);
 
     good_color = find_contrasting_color(!light_theme);
     good_color.adjust_hue(green_hue);
+    good_color.adjust_contrast_color(background_color, !light_theme);
     used_colors.push_back(good_color);
 
     warning_color = find_contrasting_color(!light_theme);
     warning_color.adjust_hue(orange_hue);
+    warning_color.adjust_contrast_color(background_color, !light_theme);
     used_colors.push_back(warning_color);
 
     info_color = find_contrasting_color(!light_theme);
     info_color.adjust_hue(blue_hue);
+    info_color.adjust_contrast_color(background_color, !light_theme);
     used_colors.push_back(info_color);
 }
 

@@ -89,6 +89,11 @@ void Color::adjust_min_contrast(float target_contrast, const Color &background_c
     }
 }
 
+void Color::adjust_contrast_color(const Color &background_color, bool is_light) {
+    adjust_minmax_luminance(is_light ? 80.0f : 20.0f, !is_light); // avoid (black/white)
+    adjust_min_contrast(is_light ? 7.0f : 3.0f, background_color, is_light);
+}
+
 void Color::adjust_luminance(float amount) {
     cv::Mat lab_color;
     cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), lab_color, cv::COLOR_RGB2Lab);
