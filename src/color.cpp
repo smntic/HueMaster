@@ -42,17 +42,19 @@ float Color::calculate_minimum_distance(const std::vector<Color> &colors) const 
 }
 
 void Color::adjust_minmax_luminance(float target_luminance, bool is_light) {
-    cv::Mat lab_color;
-    cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), lab_color, cv::COLOR_RGB2Lab);
+    target_luminance /= 100.0f;
 
-    float current_luminance = lab_color.at<cv::Vec3f>(0, 0)[0];
+    cv::Mat hls_color;
+    cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), hls_color, cv::COLOR_RGB2HLS);
+
+    float current_luminance = hls_color.at<cv::Vec3f>(0, 0)[1];
     if ((is_light && current_luminance < target_luminance)
         || (!is_light && current_luminance > target_luminance)) {
-        lab_color.at<cv::Vec3f>(0, 0)[0] = target_luminance;
+        hls_color.at<cv::Vec3f>(0, 0)[1] = target_luminance;
     }
 
-    cv::cvtColor(lab_color, lab_color, cv::COLOR_Lab2RGB);
-    color = lab_color.at<cv::Vec3f>(0, 0) * 255.0f;
+    cv::cvtColor(hls_color, hls_color, cv::COLOR_HLS2RGB);
+    color = hls_color.at<cv::Vec3f>(0, 0) * 255.0f;
 }
 
 void Color::adjust_min_contrast(float target_contrast, const Color &background_color, bool is_light) {
@@ -64,13 +66,7 @@ void Color::adjust_min_contrast(float target_contrast, const Color &background_c
         cv::cvtColor(cv::Mat(1, 1, CV_32FC3, adjusted_color / 255.0f), hls_color, cv::COLOR_RGB2HLS);
 
         float luminance_multiplier = is_light ? 1.1f : 0.9f;
-        float saturation_multiplier = is_light ? 1.1f : 0.9f;
         hls_color.at<cv::Vec3f>(0, 0)[1] *= luminance_multiplier;
-        hls_color.at<cv::Vec3f>(0, 0)[2] *= saturation_multiplier;
-
-        if (hls_color.at<cv::Vec3f>(0, 0)[2] > 1.0f) {
-            hls_color.at<cv::Vec3f>(0, 0)[2] = 1.0f;
-        }
 
         if (hls_color.at<cv::Vec3f>(0, 0)[1] > 1.0f) {
             hls_color.at<cv::Vec3f>(0, 0)[1] = 1.0f;
@@ -95,13 +91,15 @@ void Color::adjust_contrast_color(const Color &background_color, bool is_light) 
 }
 
 void Color::adjust_luminance(float amount) {
-    cv::Mat lab_color;
-    cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), lab_color, cv::COLOR_RGB2Lab);
+    amount /= 100.0f;
 
-    lab_color.at<cv::Vec3f>(0, 0)[0] += amount;
+    cv::Mat hls_color;
+    cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), hls_color, cv::COLOR_RGB2HLS);
 
-    cv::cvtColor(lab_color, lab_color, cv::COLOR_Lab2RGB);
-    color = lab_color.at<cv::Vec3f>(0, 0) * 255.0f;
+    hls_color.at<cv::Vec3f>(0, 0)[1] += amount;
+
+    cv::cvtColor(hls_color, hls_color, cv::COLOR_HLS2RGB);
+    color = hls_color.at<cv::Vec3f>(0, 0) * 255.0f;
 }
 
 void Color::adjust_alpha(float amount) {
