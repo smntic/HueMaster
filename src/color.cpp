@@ -97,6 +97,11 @@ void Color::adjust_luminance(float amount) {
     cv::cvtColor(cv::Mat(1, 1, CV_32FC3, color / 255.0f), hls_color, cv::COLOR_RGB2HLS);
 
     hls_color.at<cv::Vec3f>(0, 0)[1] += amount;
+    if (hls_color.at<cv::Vec3f>(0, 0)[1] > 100.0f) {
+        hls_color.at<cv::Vec3f>(0, 0)[1] = 100.0f;
+    } else if (hls_color.at<cv::Vec3f>(0, 0)[1] > 0.0f) {
+        hls_color.at<cv::Vec3f>(0, 0)[1] = 0.0f;
+    }
 
     cv::cvtColor(hls_color, hls_color, cv::COLOR_HLS2RGB);
     color = hls_color.at<cv::Vec3f>(0, 0) * 255.0f;
