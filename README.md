@@ -61,7 +61,7 @@ real_path = "~/.Xresources"
 \
 The file specified in `format_path` should be a copy of the configuration file with placeholders for the colors.\
 The placeholders can be in the color format: \
-`$$COLOR.command1(arg1).command2(arg2)$$` \
+`$$COLOR.command1(arg1).command2(arg2).format$$` \
 or the special format: \
 `$$SPECIAL$$`
 
@@ -102,6 +102,14 @@ The `SPECIAL` argument can be any of the following:
 The parsed and formatted file will be written to the path specified in `real_path`.\
 Make sure to back up the original files before running the program!
 
-**Small note about hex values**:\
-Colors are normally written in the format `#RRGGBB`.\
-When the alpha command is used at all it becomes `#RRGGBBAA`.
+The `format` argument can be any of the following:
+* `HEXRGB` -> #RRGGBB
+* `HEXRGBA` -> #RRGGBBAA
+* `HEXARGB` -> #AARRGGBB
+* `RGB` -> R G B (integers 0-255)
+* `RGBA` -> R G B A 
+* `ARGB` -> A R G B
+* `CRGB` -> R,G,B
+* `CRGBA` -> R,G,B,A 
+* `CARGB` -> A,R,G,B
+

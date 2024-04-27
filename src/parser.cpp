@@ -66,7 +66,7 @@ std::string Parser::parse_placeholder(const std::string &format_path, const Colo
                       << "` at line: " << line_number;
         throw std::runtime_error(error_message.str());
     }
-    return result.result.to_hex();
+    return result.result.to_string();
 }
 
 std::string Parser::parse_ternary_placeholder(const std::string &format_path, const ColorScheme &color_scheme,

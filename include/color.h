@@ -7,6 +7,21 @@
 #include <opencv2/opencv.hpp>
 
 class Color {
+private:
+    typedef enum {
+        HEXRGB = 0,
+        HEXRGBA,
+        HEXARGB,
+        RGB,
+        RGBA,
+        ARGB,
+        CRGB,
+        CRGBA,
+        CARGB
+    } StringFormat;
+
+    static const std::string format_names[9];
+
 public:
     Color() = default;
     explicit Color(const cv::Vec3f &color);
@@ -27,10 +42,13 @@ public:
     void adjust_alpha(float amount);
     void adjust_hue(float target_hue);
 
+    static bool is_valid_format(const std::string &format_name);
+    void set_format(const std::string &format_name);
+
     [[nodiscard]] cv::Vec3f get_color() const;
     [[nodiscard]] float get_proportion() const;
 
-    [[nodiscard]] std::string to_hex() const;
+    [[nodiscard]] std::string to_string() const;
 
     [[nodiscard]] Color multiply(float amount);
 
@@ -38,9 +56,12 @@ private:
     static cv::Vec3f normalize_color(const cv::Vec3f &color);
     static float normalize_channel(float channel);
 
+    std::string to_hex() const;
+    std::string to_rgb() const;
+
     cv::Vec3f color;
     float alpha = 1.0f;
-    bool alpha_changed = false;
+    StringFormat format{};
     float proportion{};
 };
 

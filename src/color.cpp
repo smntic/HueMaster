@@ -1,5 +1,17 @@
 #include "../include/color.h"
 
+const std::string Color::format_names[] = {
+    "HEXRGB",
+    "HEXRGBA",
+    "HEXARGB",
+    "RGB",
+    "RGBA",
+    "ARGB",
+    "CRGB",
+    "CRGBA",
+    "CARGB"
+};
+
 Color::Color(const cv::Vec3f &color) : color(color) { }
 
 Color::Color(const cv::Vec3f &color, float proportion) : color(color), proportion(proportion) { }
@@ -114,7 +126,6 @@ void Color::adjust_alpha(float amount) {
     } else if (alpha > 1.0f) {
         alpha = 1.0f;
     }
-    alpha_changed = true;
 }
 
 void Color::adjust_hue(float target_hue) {
@@ -130,6 +141,17 @@ void Color::adjust_hue(float target_hue) {
     color = hls_color.at<cv::Vec3f>(0, 0) * 255.0f;
 }
 
+bool Color::is_valid_format(const std::string &format) {
+    auto result = std::find(std::begin(format_names), std::end(format_names), format);
+    return result != std::end(format_names);
+}
+
+void Color::set_format(const std::string &format) {
+    auto it = std::find(std::begin(format_names), std::end(format_names), format);
+    int idx = std::distance(std::begin(format_names), it);
+    this->format = (StringFormat) idx;
+}
+
 cv::Vec3f Color::get_color() const {
     return color;
 }
@@ -138,17 +160,12 @@ float Color::get_proportion() const {
     return proportion;
 }
 
-std::string Color::to_hex() const {
-    std::stringstream stream;
-    stream << "#" << std::hex << std::setfill('0') << std::setw(2) << (int) color[0]
-           << std::hex << std::setfill('0') << std::setw(2) << (int) color[1]
-           << std::hex << std::setfill('0') << std::setw(2) << (int) color[2];
-
-    if (alpha_changed) {
-        stream << std::hex << std::setfill('0') << std::setw(2) << (int) (alpha * 255.0f);
+std::string Color::to_string() const {
+    if (format == HEXRGB || format == HEXRGBA || format == HEXARGB) {
+        return to_hex();
+    } else {
+        return to_rgb();
     }
-
-    return stream.str();
 }
 
 Color Color::multiply(float amount) {
@@ -175,3 +192,46 @@ float Color::normalize_channel(float channel) {
         return (float) std::pow((srgb + 0.055) / 1.055, 2.4);
     }
 }
+
+std::string Color::to_hex() const {
+    std::stringstream stream;
+    stream << "#";
+
+    if (format == HEXARGB) {
+        stream << std::hex << std::setfill('0') << std::setw(2) << (int)(alpha * 255.0f);
+    }
+
+    stream << std::hex << std::setfill('0') << std::setw(2) << (int) color[0]
+           << std::hex << std::setfill('0') << std::setw(2) << (int) color[1]
+           << std::hex << std::setfill('0') << std::setw(2) << (int) color[2];
+
+    if (format == HEXRGBA) {
+        stream << std::hex << std::setfill('0') << std::setw(2) << (int)(alpha * 255.0f);
+    }
+
+    return stream.str();
+}
+
+std::string Color::to_rgb() const {
+    std::stringstream stream;
+
+    char delim = ' ';
+    if (format == CRGB || format == CRGBA || format == CARGB) {
+        delim = ',';
+    }
+
+    if (format == ARGB || format == CARGB) {
+        stream << (int) (alpha * 255.0f) << delim;
+    }
+
+    stream << (int) color[0] << delim
+           << (int) color[1] << delim
+           << (int) color[2];
+
+    if (format == RGBA || format == CRGBA) {
+        stream << delim << (int) (alpha * 255.0f);
+    }
+
+    return stream.str();
+}
+

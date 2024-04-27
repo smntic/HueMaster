@@ -46,15 +46,15 @@ void ColorScheme::generate(const Image &image) {
 
 void ColorScheme::print_Xresources() {
     std::cout << "! special" << std::endl;
-    std::cout << "*.foreground:\t" << text_color.to_hex() << std::endl;
-    std::cout << "*.background:\t" << background_color.to_hex() << std::endl;
-    std::cout << "*.cursorColor:\t" << text_color.to_hex() << std::endl;
+    std::cout << "*.foreground:\t" << text_color.to_string() << std::endl;
+    std::cout << "*.background:\t" << background_color.to_string() << std::endl;
+    std::cout << "*.cursorColor:\t" << text_color.to_string() << std::endl;
 
     for (size_t i = 0; i < Xresources_headers.size(); i++) {
         std::cout << std::endl;
         std::cout << "! " << Xresources_headers[i] << std::endl;
-        std::cout << "*.color" << i << ":\t" << scheme_colors[i].to_hex() << std::endl;
-        std::cout << "*.color" << i + 8 << ":\t" << scheme_colors[i + 8].to_hex() << std::endl;
+        std::cout << "*.color" << i << ":\t" << scheme_colors[i].to_string() << std::endl;
+        std::cout << "*.color" << i + 8 << ":\t" << scheme_colors[i + 8].to_string() << std::endl;
     }
 }
 
@@ -74,7 +74,12 @@ ColorScheme::ConversionResult ColorScheme::commands_to_color(const std::string &
     for (size_t i = 1; i < segments.size(); i++) {
         size_t modifier_end = segments[i].find('(');
         if (modifier_end == std::string::npos) {
-            return {false, {}};
+            if (!Color::is_valid_format(segments[i])) {
+                return {false, {}};
+            } else {
+                color.set_format(segments[i]);
+                continue;
+            }
         }
 
         std::string modifier = segments[i].substr(0, modifier_end);
