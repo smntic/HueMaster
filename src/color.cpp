@@ -1,4 +1,4 @@
-#include "../include/color.h"
+#include "color.h"
 
 const std::string Color::format_names[] = {
     "HEXRGB",

@@ -2,8 +2,6 @@
 #define HUEMASTER_COLOR_H
 
 #include <string>
-#include <sstream>
-#include <iomanip>
 #include <opencv2/opencv.hpp>
 
 class Color {
