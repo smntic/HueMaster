@@ -97,11 +97,7 @@ For example, for `.Xresources` configuration:
 
 The `SPECIAL` argument can be any of the following:
 * "LIGHT?STRING_1:STRING_2" to choose between `STRING_1` and `STRING_2` based on the lightness of the background color
-
 \
-The parsed and formatted file will be written to the path specified in `real_path`.\
-Make sure to back up the original files before running the program!
-
 The `format` argument can be any of the following:
 * `HEXRGB` -> #RRGGBB
 * `HEXRGBA` -> #RRGGBBAA
@@ -112,4 +108,8 @@ The `format` argument can be any of the following:
 * `CRGB` -> R,G,B
 * `CRGBA` -> R,G,B,A 
 * `CARGB` -> A,R,G,B
+
+\
+The parsed and formatted file will be written to the path specified in `real_path`.\
+Make sure to back up the original files before running the program!
 
