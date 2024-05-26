@@ -97,6 +97,7 @@ For example, for `.Xresources` configuration:
 
 The `SPECIAL` argument can be any of the following:
 * "LIGHT?STRING_1:STRING_2" to choose between `STRING_1` and `STRING_2` based on the lightness of the background color
+
 \
 The `format` argument can be any of the following:
 * `HEXRGB` -> #RRGGBB
