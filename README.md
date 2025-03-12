@@ -12,7 +12,7 @@ Create a usable color scheme from an image
 ## Installation
 Clone the repository and recursively:
 ```bash
-git clone --recurse-submodules git@github.com:smnast/HueMaster.git
+git clone --recurse-submodules git@github.com:smntic/HueMaster.git
 ```
 
 Build the project:
